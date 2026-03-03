@@ -384,6 +384,10 @@ export function App() {
     } else if (input === "k" || key.upArrow) {
       selection.moveUp();
     } else if (input === "a") {
+      if (nav.view === "projects" && !expandedProjectId) {
+        flash("Expand a project first (Enter) to add a todo");
+        return;
+      }
       setInputMode("quickadd");
     } else if (input === "A") {
       const todo = getSelectedTodo();
