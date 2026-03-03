@@ -79,6 +79,7 @@ export function ProjectList({ data, cursor, scrollOffset, viewportHeight, expand
 
           if (row.type === "project") {
             const isExpanded = expandedProjectId === row.project.id;
+            const otherExpanded = expandedProjectId && expandedProjectId !== row.project.id;
             return (
               <Box key={row.project.id}>
                 <Text color={isSelected ? colors.accent : colors.fgDim}>
@@ -87,10 +88,10 @@ export function ProjectList({ data, cursor, scrollOffset, viewportHeight, expand
                 <Text color={isExpanded ? colors.accent : colors.fgDim}>
                   {isExpanded ? icons.expanded : icons.collapsed}{" "}
                 </Text>
-                <Text bold color={isSelected || isExpanded ? colors.accent : colors.fg}>
+                <Text bold color={isSelected || isExpanded ? colors.accent : otherExpanded ? colors.fgMuted : colors.fg}>
                   {row.project.title}
                 </Text>
-                <Text color={colors.fgDim}> ({row.todoCount})</Text>
+                <Text color={otherExpanded ? colors.fgMuted : colors.fgDim}> ({row.todoCount})</Text>
                 <Text color={colors.fgMuted}> {row.project.id.slice(0, 4)}</Text>
               </Box>
             );
