@@ -58,6 +58,15 @@ export function StatusBar({ view, inputMode, message, showCompleted, storeMode }
     );
   }
 
+  if (inputMode === "createproject") {
+    return (
+      <Box borderStyle="single" borderColor={colors.border} paddingX={1}>
+        <Shortcut hotkey="Enter" label="create" />
+        <Shortcut hotkey="Esc" label="cancel" />
+      </Box>
+    );
+  }
+
   if (inputMode === "move") {
     return (
       <Box borderStyle="single" borderColor={colors.border} paddingX={1}>
@@ -86,6 +95,7 @@ export function StatusBar({ view, inputMode, message, showCompleted, storeMode }
       <Shortcut hotkey="d" label="done" />
       <Shortcut hotkey="x" label="del" />
       <Shortcut hotkey="m" label="move" />
+      <Shortcut hotkey="p" label="project" />
       <Shortcut hotkey="s" label="sort" />
       <Shortcut hotkey="c" label={showCompleted ? "hide" : "show"} />
       <Shortcut hotkey="u" label="undo" />

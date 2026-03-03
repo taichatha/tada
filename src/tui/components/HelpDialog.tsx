@@ -22,6 +22,7 @@ const sections = [
       ["d", "Mark done"],
       ["x", "Delete"],
       ["m", "Move to project"],
+      ["p", "Create project"],
       ["u", "Undo last action"],
       ["/", "Search"],
     ],

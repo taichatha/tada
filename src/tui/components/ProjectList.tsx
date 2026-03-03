@@ -65,6 +65,10 @@ export function ProjectList({ data, cursor, scrollOffset, viewportHeight, expand
       <Box marginBottom={1}>
         <Text bold color={colors.fg}>Projects</Text>
         <Text color={colors.fgDim}> ({data.projects.filter((p) => p.status === "active").length})</Text>
+        {expandedProjectId && (() => {
+          const ep = data.projects.find((p) => p.id === expandedProjectId);
+          return ep ? <Text color={colors.accent}> {icons.chevron} {ep.title}</Text> : null;
+        })()}
       </Box>
       {rows.length === 0 ? (
         <Text color={colors.fgDim}>No projects</Text>
@@ -80,10 +84,10 @@ export function ProjectList({ data, cursor, scrollOffset, viewportHeight, expand
                 <Text color={isSelected ? colors.accent : colors.fgDim}>
                   {isSelected ? icons.cursor + " " : "  "}
                 </Text>
-                <Text color={colors.fgDim}>
+                <Text color={isExpanded ? colors.accent : colors.fgDim}>
                   {isExpanded ? icons.expanded : icons.collapsed}{" "}
                 </Text>
-                <Text bold color={isSelected ? colors.accent : colors.fg}>
+                <Text bold color={isSelected || isExpanded ? colors.accent : colors.fg}>
                   {row.project.title}
                 </Text>
                 <Text color={colors.fgDim}> ({row.todoCount})</Text>

@@ -15,14 +15,16 @@ import { getProjectRows } from "./components/ProjectList.js";
 import { getSearchResults } from "./components/SearchView.js";
 import { getLogbookItems } from "./components/LogbookView.js";
 import { addTodo, completeTodo, reopenTodo, deleteTodo, updateTodo, getSubtasks } from "../core/todo.js";
+import { createProject } from "../core/project.js";
 import type { Todo } from "../core/types.js";
 import type { SortMode } from "../core/views.js";
 import { format } from "date-fns";
 import { colors } from "./theme.js";
 
 import { HelpDialog } from "./components/HelpDialog.js";
+import { ProjectAdd } from "./components/ProjectAdd.js";
 
-type InputMode = null | "quickadd" | "confirm" | "search" | "detail" | "move" | "help";
+type InputMode = null | "quickadd" | "confirm" | "search" | "detail" | "move" | "help" | "createproject";
 
 export function App() {
   const { exit } = useApp();
@@ -217,6 +219,15 @@ export function App() {
     setMoveTodo(null);
   }, [moveTodo, moveCursor, data, mutate, flash]);
 
+  // Handle create project
+  const handleCreateProject = useCallback(async (title: string) => {
+    await mutate((store) => {
+      createProject(store, { title });
+    });
+    setInputMode(null);
+    flash(`Created project "${title}"`);
+  }, [mutate, flash]);
+
   // Keyboard handler
   useInput((input, key) => {
     // Handle confirm dialog
@@ -257,6 +268,13 @@ export function App() {
     }
 
     if (inputMode === "search") {
+      if (key.escape) {
+        setInputMode(null);
+      }
+      return;
+    }
+
+    if (inputMode === "createproject") {
       if (key.escape) {
         setInputMode(null);
       }
@@ -394,6 +412,8 @@ export function App() {
       undo().then((ok) => {
         flash(ok ? "Undone" : "Nothing to undo");
       });
+    } else if (input === "p") {
+      setInputMode("createproject");
     } else if (input === "?") {
       setInputMode("help");
     } else if (input === "/") {
@@ -495,6 +515,11 @@ export function App() {
           contextProject={activeProject?.title}
           contextSubtask={subtaskParentRef.current ? data.todos.find((t) => t.id === subtaskParentRef.current)?.title ?? null : null}
         />
+      )}
+
+      {/* Create project input */}
+      {inputMode === "createproject" && (
+        <ProjectAdd onSubmit={handleCreateProject} onCancel={() => setInputMode(null)} />
       )}
 
       {/* Move to project picker */}
