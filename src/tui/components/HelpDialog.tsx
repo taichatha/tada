@@ -8,7 +8,7 @@ const sections = [
     keys: [
       ["j/k", "Move up/down"],
       ["h/l", "Switch sidebar/main"],
-      ["1-7", "Jump to view"],
+      ["1-6", "Jump to view"],
       ["Tab", "Toggle sidebar/main"],
       ["Enter", "Open detail / expand project"],
       ["Esc", "Close overlay / back"],

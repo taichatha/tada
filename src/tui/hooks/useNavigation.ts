@@ -1,16 +1,15 @@
 import { useState, useCallback } from "react";
 
-export type View = "inbox" | "today" | "upcoming" | "projects" | "areas" | "logbook" | "search";
+export type View = "inbox" | "today" | "upcoming" | "projects" | "logbook" | "search";
 export type FocusZone = "sidebar" | "main";
 
-const viewOrder: View[] = ["inbox", "today", "upcoming", "projects", "areas", "logbook", "search"];
+const viewOrder: View[] = ["inbox", "today", "upcoming", "projects", "logbook", "search"];
 
 const viewLabels: Record<View, string> = {
   inbox: "Inbox",
   today: "Today",
   upcoming: "Upcoming",
   projects: "Projects",
-  areas: "Areas",
   logbook: "Logbook",
   search: "Search",
 };

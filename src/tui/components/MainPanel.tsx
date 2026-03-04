@@ -8,7 +8,6 @@ import type { SortMode } from "../../core/views.js";
 import type { Todo } from "../../core/types.js";
 import { TodoList } from "./TodoList.js";
 import { ProjectList } from "./ProjectList.js";
-import { AreaList } from "./AreaList.js";
 import { LogbookView } from "./LogbookView.js";
 import { SearchView, getSearchResults } from "./SearchView.js";
 import { colors } from "../theme.js";
@@ -128,14 +127,6 @@ export function MainPanel({
           expandedProjectId={expandedProjectId}
           showCompleted={showCompleted}
           sortMode={sortMode}
-        />
-      )}
-      {view === "areas" && (
-        <AreaList
-          data={data}
-          cursor={cursor}
-          scrollOffset={scrollOffset}
-          viewportHeight={viewportHeight}
         />
       )}
       {view === "logbook" && (

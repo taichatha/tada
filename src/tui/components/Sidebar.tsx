@@ -21,7 +21,6 @@ const views: { key: View; label: string }[] = [
   { key: "today", label: "Today" },
   { key: "upcoming", label: "Upcoming" },
   { key: "projects", label: "Projects" },
-  { key: "areas", label: "Areas" },
   { key: "logbook", label: "Logbook" },
   { key: "search", label: "Search" },
 ];
@@ -32,7 +31,6 @@ function getCount(key: View, data: TadaStore): number | null {
     case "today": return getToday(data).length;
     case "upcoming": return getUpcoming(data).length;
     case "projects": return data.projects.filter((p) => p.status === "active").length;
-    case "areas": return data.areas.length;
     case "logbook": return data.todos.filter((t) => t.status === "completed" || t.status === "cancelled").length;
     default: return null;
   }

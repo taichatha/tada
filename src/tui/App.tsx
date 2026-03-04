@@ -62,9 +62,6 @@ export function App() {
     if (nav.view === "projects") {
       return getProjectRows(data, expandedProjectId, showCompleted, sortMode).length;
     }
-    if (nav.view === "areas") {
-      return data.areas.length;
-    }
     if (nav.view === "logbook") {
       return getLogbookItems(data).length;
     }
@@ -384,7 +381,7 @@ export function App() {
     // Sidebar navigation
     if (nav.focus === "sidebar") {
       if (input === "j" || key.downArrow) {
-        setSidebarCursor((c) => Math.min(c + 1, 6));
+        setSidebarCursor((c) => Math.min(c + 1, 5));
       } else if (input === "k" || key.upArrow) {
         setSidebarCursor((c) => Math.max(c - 1, 0));
       } else if (key.return) {
