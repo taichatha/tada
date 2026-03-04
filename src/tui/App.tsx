@@ -15,7 +15,7 @@ import { getProjectRows } from "./components/ProjectList.js";
 import { getSearchResults } from "./components/SearchView.js";
 import { getLogbookItems } from "./components/LogbookView.js";
 import { addTodo, completeTodo, reopenTodo, deleteTodo, updateTodo, getSubtasks } from "../core/todo.js";
-import { createProject } from "../core/project.js";
+import { createProject, deleteProject } from "../core/project.js";
 import type { Todo } from "../core/types.js";
 import type { SortMode } from "../core/views.js";
 import { format } from "date-fns";
@@ -182,6 +182,23 @@ export function App() {
 
   // Handle delete with confirmation
   const handleDelete = useCallback(() => {
+    // Check if we're on a project row
+    if (nav.view === "projects") {
+      const rows = getProjectRows(data, expandedProjectId, showCompleted, sortMode);
+      const row = rows[selection.cursor];
+      if (row?.type === "project") {
+        const project = row.project;
+        confirmActionRef.current = async () => {
+          await mutate((store) => deleteProject(store, project.id));
+          if (expandedProjectId === project.id) setExpandedProjectId(null);
+          flash(`Deleted project "${project.title}"`);
+          setInputMode(null);
+          confirmActionRef.current = null;
+        };
+        setInputMode("confirm");
+        return;
+      }
+    }
     const todo = getSelectedTodo();
     if (!todo) return;
     confirmActionRef.current = async () => {
@@ -191,7 +208,7 @@ export function App() {
       confirmActionRef.current = null;
     };
     setInputMode("confirm");
-  }, [getSelectedTodo, mutate, flash]);
+  }, [getSelectedTodo, mutate, flash, nav.view, data, expandedProjectId, showCompleted, sortMode, selection.cursor]);
 
   // Handle move to project
   const handleStartMove = useCallback(() => {
